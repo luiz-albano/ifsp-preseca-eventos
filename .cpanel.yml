@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/luizalbano/ifsp.luizalbano.com.br/www/
+    - /bin/cp -R * $DEPLOYPATH
+    
