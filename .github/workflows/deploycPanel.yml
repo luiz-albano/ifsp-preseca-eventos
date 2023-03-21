@@ -19,5 +19,3 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
     - name: Install dependencies
       uses: php-actions/composer@v6
-      with:
-        command: composer install
