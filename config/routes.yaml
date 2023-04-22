@@ -7,6 +7,12 @@ app.swagger_ui:
 api_login_check:
     path: /api/auth
 
+jwt_auth:
+    path: /api/auth
+
+jwt_refresh:
+    path: /auth/refresh
+
 controllers:
     resource:
         path: ../src/Controller/

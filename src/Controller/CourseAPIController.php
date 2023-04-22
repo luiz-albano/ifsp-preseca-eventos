@@ -19,12 +19,30 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Courses
+ * 
+ * @OA\Tag (name="Courses")
  */
 #[Route('/api/courses', name: 'api_course_')]
 class CourseAPIController extends AbstractController
 {
     /**
      * Get all courses
+     * 
+     * @OA\Tag (name="Courses")
+     * @OA\Response(
+     *      response=200,
+     *      description="Array of courses",
+     *      @OA\JsonContent(
+     *          type="array",
+     *          @OA\Items(
+     *              @OA\Property(type="integer", property="id"),
+     *              @OA\Property(type="string", property="class"),
+     *              @OA\Property(type="string", property="period"),
+     *              @OA\Property(type="datetime", property="createdAt"),
+     *              @OA\Property(type="datetime", property="updatedAt"),
+     *          )
+     *      )
+     * )
      */
     #[Route('', name: 'api_course_index', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN', message: 'Access denied')]
@@ -51,17 +69,28 @@ class CourseAPIController extends AbstractController
     /**
      * Creates a new course
      * 
+     * @OA\Tag (name="Courses")
+     * @OA\RequestBody(
+     *      description="Course to add",
+     *      required=true,
+     *      @OA\JsonContent(
+     *          @OA\Property(type="string", property="class"),
+     *          @OA\Property(type="string", property="period")
+     *      )
+     * )
+     * 
      * @TODO: validar estado do objeto antes de salvar
      */
     #[Route('', name: 'api_course_new', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN', message: 'Access denied')]
     public function new(Request $request, CourseRepository $courseRepository, ValidatorInterface $validator): Response
     {
+        $data = json_decode($request->getContent(), true);
+
         $course = new Course();
-        
         $date_insert = new \DateTimeImmutable('now');
-        $course->setClass( $request->get('class') );
-        $course->setPeriod( $request->get('period') );
+        $course->setClass( $data['class'] );
+        $course->setPeriod( $data['period'] );
         $course->setCreatedAt( $date_insert );
         $course->setUpdatedAt( $date_insert );
 
@@ -77,6 +106,19 @@ class CourseAPIController extends AbstractController
 
     /**
      * Get a course data
+     * 
+     * @OA\Tag (name="Courses")
+     * @OA\Response(
+     *      response=200,
+     *      description="Data of a course",
+     *      @OA\JsonContent(
+     *          @OA\Property(type="integer", property="id"),
+     *          @OA\Property(type="string", property="class"),
+     *          @OA\Property(type="string", property="period"),
+     *          @OA\Property(type="datetime", property="createdAt"),
+     *          @OA\Property(type="datetime", property="updatedAt"),
+     *      )
+     * )
      */
     #[Route('/{id}', name: 'api_course_show', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN', message: 'Access denied')]
@@ -95,6 +137,16 @@ class CourseAPIController extends AbstractController
 
     /**
      * Edit a course data
+     * 
+     * @OA\Tag (name="Courses")
+     * @OA\RequestBody(
+     *      description="Course to add",
+     *      required=true,
+     *      @OA\JsonContent(
+     *          @OA\Property(type="string", property="class"),
+     *          @OA\Property(type="string", property="period")
+     *      )
+     * )
      * 
      * @TODO: validar estado do objeto antes de salvar
      */

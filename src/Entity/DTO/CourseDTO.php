@@ -7,19 +7,19 @@ use OpenApi\Attributes as OA;
 
 class CourseDTO
 {
-    #[OA\Property(description: 'The unique identifier of the course.')]
+    #[OA\Property(type: 'integer', description: 'The unique identifier of the course.')]
     private ?int $id = null;
 
-    #[OA\Property(description: 'The class name.')]
+    #[OA\Property(type: 'string', description: 'The class name.')]
     private ?string $class = null;
 
-    #[OA\Property(description: 'The period name.')]
+    #[OA\Property(type: 'string', description: 'The period name.')]
     private ?string $period = null;
 
-    #[OA\Property(description: 'Record creation date.')]
+    #[OA\Property(type: 'DateTimeImmutable', description: 'Record creation date.')]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[OA\Property(description: 'Date of last record update.')]
+    #[OA\Property(type: 'DateTimeInterface', description: 'Date of last record update.')]
     private ?\DateTimeInterface $updated_at = null;
 
     public function __construct()
