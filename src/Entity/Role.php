@@ -8,6 +8,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * 
+ * Roles:
+ * - ROLE_ADMIN Administradores de eventos
+ * - ROLE_ASSISTANT Assistentes de eventos
+ * - ROLE_TEACHER   Professores
+ * - ROLE_STUDENT   Alunos
+ * - ROLE_USER  Usuários
+ */
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role
 {
@@ -28,7 +37,7 @@ class Role
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'roles2')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'roles_db')]
     private Collection $users;
 
     public function __construct()
