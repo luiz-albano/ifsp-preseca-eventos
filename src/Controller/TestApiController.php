@@ -12,14 +12,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/api', name: 'api_')]
-#[OA\Tag(name: 'tests')]
 class TestApiController extends AbstractController
 {
     /**
      * Descrição do endpoint - teste
      */
     #[Route('/test', name: 'app_test_api', methods:["POST"] )]
-    #[OA\Tag(name: 'tests')]
     #[IsGranted('ROLE_SUPER_ADMIN', message: 'Access denied')]
     public function index(): Response
     {

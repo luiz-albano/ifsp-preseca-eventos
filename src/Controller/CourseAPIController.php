@@ -95,6 +95,8 @@ class CourseAPIController extends AbstractController
 
     /**
      * Edit a course data
+     * 
+     * @TODO: validar estado do objeto antes de salvar
      */
     #[Route('/{id}', name: 'api_course_edit', methods: ['PUT'])]
     #[IsGranted('ROLE_ADMIN', message: 'Access denied')]
