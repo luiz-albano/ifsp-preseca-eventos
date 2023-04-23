@@ -41,9 +41,9 @@ class EventAPIController extends AbstractController
      *              @OA\Property(type="integer", property="id"),
      *              @OA\Property(type="string", property="name"),
      *              @OA\Property(type="string", property="description"),
-     *              @OA\Property(type="datetime", property="start_date"),
-     *              @OA\Property(type="datetime", property="end_date"),
-     *              @OA\Property(type="string", property="banner_url"),
+     *              @OA\Property(type="datetime", property="startDate"),
+     *              @OA\Property(type="datetime", property="endDate"),
+     *              @OA\Property(type="string", property="bannerUrl"),
      *              @OA\Property(type="datetime", property="createdAt"),
      *              @OA\Property(type="datetime", property="updatedAt"),
      *          )
@@ -85,8 +85,8 @@ class EventAPIController extends AbstractController
      *      @OA\JsonContent(
      *          @OA\Property(type="string", property="name"),
      *          @OA\Property(type="string", property="description"),
-     *          @OA\Property(type="datetime", property="start_date"),
-     *          @OA\Property(type="datetime", property="end_date"),
+     *          @OA\Property(type="datetime", property="startDate"),
+     *          @OA\Property(type="datetime", property="endDate"),
      *          @OA\Property(type="string", format="binary", property="banner"),
      *      )
      * )
@@ -103,23 +103,14 @@ class EventAPIController extends AbstractController
         $date_insert = new \DateTimeImmutable('now');
         $event->setName( $data['name'] );
         $event->setDescription( $data['description'] );
-        $event->setStartDate( new \DateTime( $data['start_date'] ) );
-        $event->setEndDate( new \DateTime( $data['end_date'] ) );
+        $event->setStartDate( new \DateTime( $data['startDate'] ) );
+        $event->setEndDate( new \DateTime( $data['endDate'] ) );
         $event->setCreatedAt( $date_insert );
         $event->setUpdatedAt( $date_insert );
 
         /* Imagem */
-        if( $data['banner'] && base64_encode(base64_decode($data['banner'], true)) === $data['banner'] )
-        {
-            $data = base64_decode($data['banner']);
-            $img = imagecreatefromstring($data);
-            if( $img !== false )
-            {
-                $file_name = $this->getParameter('app.media_event_images') . uniqid() . '.jpg';
-                imagejpeg($img, $file_name);
-                $event->setBannerUrl( $file_name );
-            }
-        }
+        $file_name = $this->uploadImage( $data['banner'] );
+        $event->setBannerUrl( $file_name );
         
         if ( $validator->validate($event) ) {
             $eventRepository->save($event, true);
@@ -141,9 +132,9 @@ class EventAPIController extends AbstractController
      *          @OA\Property(type="integer", property="id"),
      *          @OA\Property(type="string", property="name"),
      *          @OA\Property(type="string", property="description"),
-     *          @OA\Property(type="datetime", property="start_date"),
-     *          @OA\Property(type="datetime", property="end_date"),
-     *          @OA\Property(type="string", property="banner_url"),
+     *          @OA\Property(type="datetime", property="startDate"),
+     *          @OA\Property(type="datetime", property="endDate"),
+     *          @OA\Property(type="string", property="bannerUrl"),
      *          @OA\Property(type="datetime", property="createdAt"),
      *          @OA\Property(type="datetime", property="updatedAt"),
      *      )
@@ -179,8 +170,8 @@ class EventAPIController extends AbstractController
      *      @OA\JsonContent(
      *          @OA\Property(type="string", property="name"),
      *          @OA\Property(type="string", property="description"),
-     *          @OA\Property(type="datetime", property="start_date"),
-     *          @OA\Property(type="datetime", property="end_date"),
+     *          @OA\Property(type="datetime", property="startDate"),
+     *          @OA\Property(type="datetime", property="endDate"),
      *          @OA\Property(type="string", format="binary", property="banner"),
      *      )
      * )
@@ -201,21 +192,14 @@ class EventAPIController extends AbstractController
         $date_insert = new \DateTimeImmutable('now');
         $event->setName( $data['name'] );
         $event->setDescription( $data['description'] );
-        $event->setStartDate( $data['start_date'] );
-        $event->setEndDate( $data['end_date'] );
+        $event->setStartDate( $data['startDate'] );
+        $event->setEndDate( $data['endDate'] );
         $event->setUpdatedAt( $date_insert );
 
         if( $data['banner'] && base64_encode(base64_decode($data['banner'], true)) === $data['banner'] )
         {
-            /* Imagem */
-            $data = base64_decode($data['banner']);
-            $img = imagecreatefromstring($data);
-            if( $img !== false )
-            {
-                $file_name = $this->getParameter('app.media_event_images') . uniqid() . '.jpg';
-                imagejpeg($img, $file_name);
-                $event->setBannerUrl( $file_name );
-            }
+            $file_name = $this->uploadImage( $data['banner'] );
+            $event->setBannerUrl( $file_name );
         }
 
         if ( $validator->validate($event) ) {
@@ -253,5 +237,27 @@ class EventAPIController extends AbstractController
         $eventRepository->remove($event, true);
 
         return $this->json('Deleted a event successfully with id ' . $request->get('id') );
+    }
+
+    /**
+     * Upload an image to the media dir
+     */
+    protected function uploadImage(string $banner): string
+    {
+        $file_name = '';
+
+        if( $banner && base64_encode(base64_decode($banner, true)) === $banner )
+        {
+            /* Imagem */
+            $data = base64_decode($banner);
+            $img = imagecreatefromstring($data);
+            if( $img !== false )
+            {
+                $file_name = $this->getParameter('app.media_event_images') . uniqid() . '.jpg';
+                imagejpeg($img, $file_name);
+            }
+        }
+
+        return $file_name;
     }
 }
