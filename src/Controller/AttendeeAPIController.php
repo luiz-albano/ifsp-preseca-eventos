@@ -28,7 +28,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class AttendeeAPIController extends AbstractController
 {
     /**
-     * Generate codes for a Lecture
+     * Validates the confirmation of attendance of a participant
      * 
      * @OA\Tag (name="Codes")
      * @OA\RequestBody(
