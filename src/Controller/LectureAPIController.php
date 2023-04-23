@@ -259,7 +259,7 @@ class LectureAPIController extends AbstractController
     }
 
     /**
-     * Deletes a Event
+     * Deletes a Lecture
      * @OA\Tag (name="Lectures")
      */
     #[Route('/{id}', name: 'api_lecture_delete', methods: ['DELETE'])]
