@@ -2,6 +2,7 @@
 
 namespace App\Entity\DTO;
 
+use App\Entity\Participant;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 
@@ -31,8 +32,27 @@ class ParticipantDTO
 
     private ?int $course_id;
 
-    public function __construct()
+    private ?CourseDTO $course = null;
+
+    public function __construct( ?Participant $participant = null )
     {
+        if( isset( $participant ) )
+        {
+            $this->setId( $participant->getId() );
+            $this->setKind( $participant->getKind() );
+            $this->setRa( $participant->getRa() );
+            $this->setName( $participant->getName() );
+            $this->setEmail( $participant->getEmail() );
+            $this->setReason( $participant->getReason() );
+            $this->setAcceptedTerms( $participant->getAcceptedTerms() );
+            $this->setUserAgent( $participant->getUserAgent() );
+            $this->setIp( $participant->getIp() );
+            $this->setCreatedAt( $participant->getCreatedAt() );
+            $this->setUpdatedAt( $participant->getUpdatedAt() );
+            $this->setCourse( new CourseDTO( $participant->getCourse() ) );
+        }
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -168,7 +188,7 @@ class ParticipantDTO
 
     public function setCourseId(int $courseId): self
     {
-        $this->setCourseId( $courseId );
+        $this->course_id = $courseId;
         return $this;
     }
 
@@ -177,5 +197,15 @@ class ParticipantDTO
         return $this->course_id;
     }
 
+    public function setCourse(CourseDTO $course): self
+    {
+        $this->course = $course;
+        return $this;
+    }
+
+    public function getCourse(): CourseDTO
+    {
+        return $this->course;
+    }
 
 }

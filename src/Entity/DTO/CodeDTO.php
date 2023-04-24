@@ -2,6 +2,7 @@
 
 namespace App\Entity\DTO;
 
+use App\Entity\Code;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 
@@ -13,13 +14,29 @@ class CodeDTO
 
     private ?string $url = null;
 
-    private ?int $used_by = null;
+    private ?ParticipantDTO $used_by = null;
 
     private ?int $lecture_id = null;
 
     private ?\DateTimeImmutable $created_at = null;
 
     private ?\DateTimeInterface $updated_at = null;
+
+    public function __construct( ?Code $code = null )
+    {
+        if( isset( $code ) )
+        {
+            $this->setId( $code->getId() );
+            $this->setHash( $code->getHash() );
+            $this->setUrl( $code->getUrl() );
+            $this->setUsedBy( $code->getUsedBy() );
+            $this->setLecture( $code->getLecture()->getId() );
+            $this->setCreatedAt( $code->getCreatedAt() );
+            $this->setUpdatedAt( $code->getUpdatedAt() );
+        }
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -76,14 +93,27 @@ class CodeDTO
         return $this;
     }
 
-    public function getUsedBy(): ?int
+    public function getUsedBy(): ?ParticipantDTO
     {
         return $this->used_by;
     }
 
-    public function setUsedBy(?int $used_by): self
+    public function setUsedBy($used_by): self
     {
-        $this->used_by = $used_by;
+        if( is_int( $used_by ) )
+        {
+            $this->used_by = new ParticipantDTO();
+            $this->used_by->setId( $used_by );
+        }
+        elseif( is_a( $used_by, 'ParticipantDTO' ) )
+        {
+            $this->used_by = $used_by;
+        }
+        elseif( is_a( $used_by, 'Participant' ) )
+        {
+            $this->used_by = new ParticipantDTO( $used_by );
+        }
+        
         return $this;
     }
 

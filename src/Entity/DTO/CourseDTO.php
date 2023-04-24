@@ -2,28 +2,34 @@
 
 namespace App\Entity\DTO;
 
+use App\Entity\Course;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 
 class CourseDTO
 {
-    #[OA\Property(type: 'integer', description: 'The unique identifier of the course.')]
     private ?int $id = null;
 
-    #[OA\Property(type: 'string', description: 'The class name.')]
     private ?string $class = null;
 
-    #[OA\Property(type: 'string', description: 'The period name.')]
     private ?string $period = null;
 
-    #[OA\Property(type: 'DateTimeImmutable', description: 'Record creation date.')]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[OA\Property(type: 'DateTimeInterface', description: 'Date of last record update.')]
     private ?\DateTimeInterface $updated_at = null;
 
-    public function __construct()
+    public function __construct( ?Course $course = null )
     {
+        if( isset( $course ) )
+        {
+            $this->setId( $course->getId() );
+            $this->setClass( $course->getClass() );
+            $this->setPeriod( $course->getPeriod() );
+            $this->setCreatedAt( $course->getCreatedAt() );
+            $this->setUpdatedAt( $course->getUpdatedAt() );
+        }
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -45,7 +51,6 @@ class CourseDTO
     public function setClass(string $class): self
     {
         $this->class = $class;
-
         return $this;
     }
 
@@ -57,7 +62,6 @@ class CourseDTO
     public function setPeriod(string $period): self
     {
         $this->period = $period;
-
         return $this;
     }
 
@@ -69,7 +73,6 @@ class CourseDTO
     public function setCreatedAt(\DateTimeImmutable $created_at): self
     {
         $this->created_at = $created_at;
-
         return $this;
     }
 
@@ -81,7 +84,6 @@ class CourseDTO
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
-
         return $this;
     }
 }

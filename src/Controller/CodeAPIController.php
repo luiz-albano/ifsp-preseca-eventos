@@ -27,6 +27,44 @@ use Doctrine\Persistence\ManagerRegistry;
 #[Route('/api/codes', name: 'api_code_')]
 class CodeAPIController extends AbstractController
 {
+
+    /**
+     * Get all codes by Lecture
+     * 
+     * @OA\Tag (name="Codes")
+     * @OA\Response(
+     *      response=200,
+     *      description="Array of Codes from Lecture",
+     *      @OA\JsonContent(
+     *          type="array",
+     *          @OA\Items(
+     *              @OA\Property(type="integer", property="id"),
+     *              @OA\Property(type="string", property="hash"),
+     *              @OA\Property(type="string", property="url"),
+     *              @OA\Property(type="object", property="used_by", @OA\Schema(ref=@Model(type=ParticipantDTO::class))),
+     *              @OA\Property(type="integer", property="lectureId"),
+     *              @OA\Property(type="datetime", property="createdAt"),
+     *              @OA\Property(type="datetime", property="updatedAt")
+     *          )
+     *      )
+     * )
+     */
+    #[Route('/{id_lecture}', name: 'api_code_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Access denied')]
+    public function index(Request $request, CodeRepository $codeRepository): Response
+    {
+        $base_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $_SERVER['HTTP_HOST'];
+
+        $codes = [];
+        foreach( $codeRepository->findBy(['lecture_id' => $request->get('id_lecture')]) as $code )
+        {
+            $codes[] = new CodeDTO( $code );
+        }
+
+        return $this->json($codes);
+    }
+
+
     /**
      * Get a code data
      * 
@@ -38,7 +76,7 @@ class CodeAPIController extends AbstractController
      *          @OA\Property(type="integer", property="id"),
      *          @OA\Property(type="string", property="hash"),
      *          @OA\Property(type="string", property="url"),
-     *          @OA\Property(type="integer", property="used_by"),
+     *          @OA\Property(type="object", property="used_by", @OA\Schema(ref=@Model(type=ParticipantDTO::class))),
      *          @OA\Property(type="integer", property="lectureId"),
      *          @OA\Property(type="datetime", property="createdAt"),
      *          @OA\Property(type="datetime", property="updatedAt")
@@ -49,7 +87,7 @@ class CodeAPIController extends AbstractController
     #[IsGranted('ROLE_ADMIN', message: 'Access denied')]
     public function show(Request $request, CodeRepository $codeRepository): Response
     {
-        $base_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $_SERVER['HTTP_HOST'] . '/';
+        $base_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $_SERVER['HTTP_HOST'];
 
         $code = $codeRepository->findOneBy(['hash' => $request->get('hash')]);
 
@@ -61,7 +99,7 @@ class CodeAPIController extends AbstractController
         $dto->setId( $code->getId() );
         $dto->setHash( $code->getHash() );
         $dto->setUrl( $base_url . $code->getUrl() );
-        $dto->setUsedBy( $code->getUsedBy()->getId() );
+        $dto->setUsedBy( $code->getUsedBy() );
         $dto->setLecture($code->getLecture()->getId());
         $dto->setCreatedAt( $code->getCreatedAt() );
         $dto->setUpdatedAt( $code->getUpdatedAt() );

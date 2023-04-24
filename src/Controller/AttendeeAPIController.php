@@ -30,7 +30,7 @@ class AttendeeAPIController extends AbstractController
     /**
      * Validates the confirmation of attendance of a participant
      * 
-     * @OA\Tag (name="Codes")
+     * @OA\Tag (name="Attendees")
      * @OA\RequestBody(
      *      description="Generate codes for a Lecture.",
      *      required=true,
