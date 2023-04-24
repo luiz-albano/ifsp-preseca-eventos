@@ -1,0 +1,52 @@
+{{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Dados de Acesso</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form) }}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            {{ form_row(form.email, {
+                                label : 'E-mail',
+                                label_attr : {
+                                    class : 'form-label'
+                                },
+                                attr : {
+                                    class : 'form-control',
+                                    placeholder : 'E-mail'
+                                },
+                                row_attr : {
+                                    class : 'mb-3'
+                                }
+                            }) }}
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            {{ form_row(form.password) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Dados do Usuário</h5>
+                </div>
+                <div class="card-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

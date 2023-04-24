@@ -1,5 +1,14 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    paths:
+        'templates/backend/template/adminkit': 'adminkit'
+        'templates/backend': 'backend'
+        'templates/frontend': 'frontend'
+    globals:
+        backend_version: '%app.backend_version%'
+        backend_name: '%app.backend_name%'
+        backend_lang: 'pt-br'
+        site_author: 'Luiz Albano'
 
 when@test:
     twig:

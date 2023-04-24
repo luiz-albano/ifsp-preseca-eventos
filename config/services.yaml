@@ -6,6 +6,8 @@
 parameters:
     app.media_event_images: 'assets/images/events/'
     app.media_lecture_images: 'assets/images/lectures/'
+    app.backend_version: '1.0.0'
+    app.backend_name: 'Controle de Presença em Eventos'
 
 services:
     # default configuration for services in *this* file

@@ -1,0 +1,32 @@
+{% set currentPath = app.request.requesturi %}
+
+<nav id="sidebar" class="sidebar js-sidebar">
+    <div class="sidebar-content js-simplebar">
+        <a class="sidebar-brand" href="index.html">
+            <img src="{{ asset('assets/backend/img/logo_ifsp_PTB.png') }}" class="img-fluid mb-3">
+            <span class="align-middle">{{backend_name}}</span>
+        </a>
+
+        <ul class="sidebar-nav">
+
+            {% for menu in config.dashboard.sidebar.menu %}
+            <li class="sidebar-item {% if path(menu.url) in currentPath %}active{% endif %}">
+                <a href="{{ url(menu.url) }}" {% if menu.subitens is defined %}data-bs-target="#{{menu.name}}" data-bs-toggle="collapse"{% endif %} class="sidebar-link {% if menu.subitens is defined %}collapsed{% endif %}">
+                    <i class="align-middle me-1" data-feather="{{menu.icon}}"></i>  
+                    <span class="align-middle">{{menu.title}}</span>
+                </a>
+
+                {% if menu.subitens is defined %}
+                <ul id="{{menu.name}}" class="sidebar-dropdown list-unstyled collapse pb-4" data-bs-parent="#sidebar" style="">
+                {% for submenu in menu.subitens %}
+                    <li class="sidebar-item active"><a class="sidebar-link" href="{{ url(submenu.url) }}">{{submenu.title}}</a></li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+            </li>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+</nav>

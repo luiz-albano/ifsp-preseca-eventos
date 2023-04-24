@@ -1,0 +1,14 @@
+{% extends '@adminkit/base.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block body %}
+
+    <div class="mb-3">
+        <h1 class="h3 d-inline align-middle fw-bold">Criar nova conta de usuário</h1>
+    </div>
+
+    {{ include('@backend/user/_form.html.twig') }}
+
+    <a href="{{ path('app_user_index') }}">back to list</a>
+{% endblock %}

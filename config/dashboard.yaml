@@ -1,0 +1,11 @@
+dashboard:
+    sidebar:
+        menu:
+        
+            - { name: dashboard, title: Dashboard, url : app_dashboard, icon: sliders }
+            - { name: user, title: Usuários, url : app_user_index, icon: users, subitens: [ 
+                    { name: user_list, title: Listar, url : app_user_index, icon: '' },
+                    { name: user_new, title: Novo Usuário, url : app_user_new, icon: '' }
+                ]
+            }
+            - { name: reports, title: Relatórios, url : app_dashboard_login, icon: pie-chart }
