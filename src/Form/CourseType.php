@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Course;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CourseType extends AbstractType
@@ -12,11 +13,18 @@ class CourseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('class')
-            ->add('period')
-            ->add('created_at')
-            ->add('updated_at')
-            ->add('participants')
+            ->add('class', TextType::class, [
+                'label' => 'Curso',
+                'label_attr' => ['class' => 'form-label'],
+                'row_attr' => ['class' => 'mb-3'],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('period', TextType::class, [
+                'label' => 'Período',
+                'label_attr' => ['class' => 'form-label'],
+                'row_attr' => ['class' => 'mb-3'],
+                'attr' => ['class' => 'form-control']
+            ])
         ;
     }
 

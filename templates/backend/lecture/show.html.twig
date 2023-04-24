@@ -1,0 +1,71 @@
+{% extends '@adminkit/base.html.twig' %}
+
+{% block title %}Programação | {{backend_name}} {% endblock %}
+
+{% block body %}
+    <div class="d-flex mb-3">
+        <h1 class="h3 me-auto d-inline align-middle">Programação</h1>
+        <a class="btn btn-success ms-2" href="#">Baixar Códigos <i data-feather="download"></i></a>
+        <a class="btn btn-info ms-2" href="{{ path('app_event_show', {'id': id_event}) }}">Voltar para Evento <i data-feather="back"></i></a>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    
+                    <h5 class="card-title mb-0">Dados da Programação</h5>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <td colspan="3">{{ lecture.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Programação</th>
+                                <td colspan="3">{{ lecture.subtitle }}</td>
+                            </tr>
+                            <tr>
+                                <th width="20%">Local</th>
+                                <td>{{ lecture.location }}</td>
+                                <th width="20%">Qtde. de Lugares</th>
+                                <td>{{ lecture.attendeesQuantity }}</td>
+                            </tr>
+                            <tr>
+                                <th>Palestrante(s)</th>
+                                <td>{{ lecture.lecturer }}</td>
+                                <th>Imagem</th>
+                                <td>{{ lecture.lecturerImage }}</td>
+                            </tr>
+                            <tr>
+                                <th>Descrição</th>
+                                <td colspan="3">{{ lecture.description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Data de Início</th>
+                                <td>{{ lecture.startDate ? lecture.startDate|date('d/m/Y H:i:s') : '' }}</td>
+                                <th>Data Final</th>
+                                <td>{{ lecture.endDate ? lecture.endDate|date('d/m/Y H:i:s') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Criado em</th>
+                                <td>{{ lecture.createdAt ? lecture.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                                <th>Última Atualização</th>
+                                <td>{{ lecture.updatedAt ? lecture.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex bd-highlight mb-3">
+                        {{ include('@backend/lecture/_delete_form.html.twig') }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

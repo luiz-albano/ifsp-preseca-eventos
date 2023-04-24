@@ -1,0 +1,66 @@
+{% extends '@adminkit/base.html.twig' %}
+
+{% block title %}Eventos | {{backend_name}} {% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between mb-3">
+        <h1 class="h3 d-inline align-middle">Eventos</h1>
+        <a class="btn btn-primary ms-2" href="{{ url('app_event_new') }}">Criar novo Evento <i data-feather="plus"></i></a>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    
+                    <h5 class="card-title mb-0">Dados do Evento</h5>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <th width="20%">ID</th>
+                                <td colspan="3">{{ event.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nome</th>
+                                <td colspan="3">{{ event.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Descrição</th>
+                                <td colspan="3">{{ event.description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Data de Início</th>
+                                <td>{{ event.startDate ? event.startDate|date('d/m/Y H:i:s') : '' }}</td>
+                                <th width="20%">Data Final</th>
+                                <td>{{ event.endDate ? event.endDate|date('d/m/Y H:i:s') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Imagem de Destaque</th>
+                                <td colspan="3"><img class="my-4" src="{{base_url}}{{ event.bannerUrl }}" style="max-height: 150px; width: auto;"></td>
+                            </tr>
+                            <tr>
+                                <th>Criado em</th>
+                                <td>{{ event.createdAt ? event.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                                <th>Última Atualização</th>
+                                <td>{{ event.updatedAt ? event.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex bd-highlight mb-3">
+                        <a class="me-auto btn btn-link" href="{{ path('app_event_index') }}">Voltar para lista</a>
+                        <a class="me-2 btn btn-info" href="{{ path('app_event_edit', {'id': event.id}) }}">Editar</a>
+                        {{ include('@backend/event/_delete_form.html.twig') }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ include('@backend/lecture/_list.html.twig') }}
+
+{% endblock %}

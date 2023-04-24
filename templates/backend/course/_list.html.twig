@@ -1,0 +1,52 @@
+    <div class="d-flex justify-content-between mb-3">
+        <h1 class="h3 d-inline align-middle">Cursos</h1>
+        <a class="btn btn-primary ms-2" href="{{ url('app_course_new') }}">Criar novo <i data-feather="plus"></i></a>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <h5 class="card-title mb-0">Lista de Cursos</h5>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Curso</th>
+                                <th>Período</th>
+                                <th>Criado em</th>
+                                <th>Última Atualização</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for course in courses %}
+                            <tr>
+                                <td>{{ course.id }}</td>
+                                <td>{{ course.class }}</td>
+                                <td>{{ course.period }}</td>
+                                <td>{{ course.createdAt ? course.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                                <td>{{ course.updatedAt ? course.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a class="btn btn-info" href="{{ path('app_course_show', {'id': course.id}) }}" title="Visualizar"><i class="align-middle me-1" data-feather="eye"></i></a>
+                                        <a class="btn btn-info" href="{{ path('app_course_edit', {'id': course.id}) }}" title="Editar"><i class="align-middle me-1" data-feather="edit"></i></a>
+                                    </div>
+                                    
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Nenhum registro encontrado</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>

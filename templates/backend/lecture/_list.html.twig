@@ -1,0 +1,50 @@
+    <div class="d-flex justify-content-between mb-3">
+        <h1 class="h3 d-inline align-middle">Agenda / Programação</h1>
+        <a class="btn btn-primary ms-2" href="{{ path('app_lecture_new', {'id_event': event.id}) }}">Criar nova Programação <i data-feather="plus"></i></a>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <table class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Agenda</th>
+                                <th>Local</th>
+                                <th>Qtde. Lugares</th>
+                                <th>Data Início</th>
+                                <th>Data Final</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for lecture in lectures %}
+                            <tr>
+                                <td>{{ lecture.subtitle }}</td>
+                                <td>{{ lecture.location }}</td>
+                                <td>{{ lecture.attendeesQuantity }}</td>
+                                <td>{{ lecture.startDate ? lecture.startDate|date('d/m/Y H:i:s') : '' }}</td>
+                                <td>{{ lecture.endDate ? lecture.endDate|date('d/m/Y H:i:s') : '' }}</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a class="btn btn-info" href="{{ path('app_lecture_show', {'id': lecture.id, 'id_event': event.id}) }}" title="Visualizar"><i class="align-middle me-1" data-feather="eye"></i></a>
+                                        <a class="btn btn-info" href="{{ path('app_lecture_edit', {'id': lecture.id, 'id_event': event.id}) }}" title="Editar"><i class="align-middle me-1" data-feather="edit"></i></a>
+                                        <a class="btn btn-success" target="_blank" href="{{ path('app_code_index', {'id_lecture': lecture.id} ) }}" title="Download Códigos de Confirmação de Presença"><i class="align-middle me-1" data-feather="download"></i> Códigos</a>
+                                    </div>
+                                    
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Nenhum registro encontrado</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>

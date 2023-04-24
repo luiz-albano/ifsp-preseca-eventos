@@ -1,0 +1,62 @@
+{% extends '@adminkit/base.html.twig' %}
+
+{% block title %}Cursos | {{backend_name}} {% endblock %}
+
+{% block body %}
+
+    <div class="d-flex justify-content-between mb-3">
+        <h1 class="h3 d-inline align-middle">Cursos</h1>
+        <a class="btn btn-primary ms-2" href="{{ url('app_course_new') }}">Criar novo <i data-feather="plus"></i></a>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    
+                    <h5 class="card-title mb-0">Dados do Curso</h5>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <th width="20%">ID</th>
+                                <td>{{ course.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Curso</th>
+                                <td>{{ course.class }}</td>
+                            </tr>
+                            <tr>
+                                <th>Período</th>
+                                <td>{{ course.period }}</td>
+                            </tr>
+                            <tr>
+                                <th>Criado em</th>
+                                <td>{{ course.createdAt ? course.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Última Edição</th>
+                                <td>{{ course.updatedAt ? course.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex bd-highlight mb-3">
+                        <a class="me-auto btn btn-link" href="{{ path('app_course_index') }}">Voltar para lista</a>
+                        <a class="me-2 btn btn-info" href="{{ path('app_course_edit', {'id': course.id}) }}">Editar</a>
+                        {{ include('@backend/course/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+{% endblock %}

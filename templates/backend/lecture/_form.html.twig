@@ -1,5 +1,5 @@
 {{ form_start(form) }}
+    <input type="hidden" name="event_id" value="{{id_event}}">
     {{ form_widget(form) }}
-
     <button class="btn btn-primary">{{ button_label|default('Salvar') }}</button>
 {{ form_end(form) }}

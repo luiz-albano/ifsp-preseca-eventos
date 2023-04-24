@@ -1,0 +1,7 @@
+{% extends '@adminkit/base.html.twig' %}
+
+{% block title %}Programação | {{backend_name}} {% endblock %}
+
+{% block body %}
+    {{ include('@backend/lecture/_list.html.twig') }}
+{% endblock %}

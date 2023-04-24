@@ -1,0 +1,13 @@
+{% extends '@adminkit/base.html.twig' %}
+
+{% block title %}Programação | {{backend_name}} {% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between mb-3">
+        <h1 class="h3 d-inline align-middle">Programação</h1>
+        <a class="btn btn-info ms-2" href="{{ path('app_event_show', {'id': id_event}) }}">Voltar para Evento <i data-feather="back"></i></a>
+    </div>
+
+    {{ include('@backend/lecture/_form.html.twig') }}
+
+{% endblock %}
