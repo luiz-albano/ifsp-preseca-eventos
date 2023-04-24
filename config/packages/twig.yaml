@@ -8,7 +8,7 @@ twig:
         backend_version: '%app.backend_version%'
         backend_name: '%app.backend_name%'
         backend_lang: 'pt-br'
-        site_author: 'Luiz Albano'
+        site_author: 'Grupo 10'
 
 when@test:
     twig:
