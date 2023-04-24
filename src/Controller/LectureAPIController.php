@@ -62,7 +62,7 @@ class LectureAPIController extends AbstractController
         $base_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $_SERVER['HTTP_HOST'] . '/';
 
         $lectures = [];
-        foreach( $lectureRepository->findBy(['event_id' => $request->get('id')]) as $lecture )
+        foreach( $lectureRepository->findBy(['event' => $request->get('id')]) as $lecture )
         {
             $dto = new LectureDTO();
             $dto->setId( $lecture->getId() );

@@ -56,7 +56,7 @@ class CodeAPIController extends AbstractController
         $base_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $_SERVER['HTTP_HOST'];
 
         $codes = [];
-        foreach( $codeRepository->findBy(['lecture_id' => $request->get('id_lecture')]) as $code )
+        foreach( $codeRepository->findBy(['lecture' => $request->get('id_lecture')]) as $code )
         {
             $codes[] = new CodeDTO( $code );
         }
