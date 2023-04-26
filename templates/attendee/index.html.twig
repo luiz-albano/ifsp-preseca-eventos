@@ -1,20 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'frontend/base.html.twig' %}
 
-{% block title %}Hello AttendeeController!{% endblock %}
+{% block title %}Confirmação de Presença{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .header { margin: 0; background-color: #2F9E41; padding: 20px 0; text-align: center; }
+    .header img { max-height: 100px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1 class="h1 text-center font-weight-bold mb-5"><strong>Bem-vindo!</strong></h1>
+    
+    <p class="h3 text-center"><strong>{{code.lecture.subtitle}}</strong></p>
+    <p class="h4 text-center">{{code.lecture.lecturer}}</p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/WebApps/IFSP/ifsp-preseca-eventos/src/Controller/AttendeeController.php'|file_link(0) }}">src/Controller/AttendeeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/WebApps/IFSP/ifsp-preseca-eventos/templates/attendee/index.html.twig'|file_link(0) }}">templates/attendee/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="buttons text-center my-5">
+        <a href="#" class="btn btn-danger btn-lg mb-3">Sou Aluno</a><br>
+        <a href="#" class="btn btn-danger btn-lg mb-3">Não sou aluno</a>
+    </div>
+
+    
 {% endblock %}
