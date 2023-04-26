@@ -31,7 +31,7 @@
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <a class="btn btn-info" href="{{ path('app_lecture_show', {'id': lecture.id, 'id_event': event.id}) }}" title="Visualizar"><i class="align-middle me-1" data-feather="eye"></i></a>
                                         <a class="btn btn-info" href="{{ path('app_lecture_edit', {'id': lecture.id, 'id_event': event.id}) }}" title="Editar"><i class="align-middle me-1" data-feather="edit"></i></a>
-                                        <a class="btn btn-success" target="_blank" href="{{ path('app_code_index', {'id_lecture': lecture.id} ) }}" title="Download Códigos de Confirmação de Presença"><i class="align-middle me-1" data-feather="download"></i> Códigos</a>
+                                        <a class="btn btn-success" href="{{ path('app_code_index', {'id_lecture': lecture.id} ) }}" title="Download Códigos de Confirmação de Presença"><i class="align-middle me-1" data-feather="download"></i> Códigos</a>
                                     </div>
                                     
                                 </td>

@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>QR Code</th>
                 <th>Hash</th>
                 <th>Url</th>
                 <th>Created_at</th>
@@ -20,6 +21,7 @@
         {% for code in codes %}
             <tr>
                 <td>{{ code.id }}</td>
+                <td><img src="{{ attribute(qrCodes, code.id) }}"></td>
                 <td>{{ code.hash }}</td>
                 <td>{{ code.url }}</td>
                 <td>{{ code.createdAt ? code.createdAt|date('Y-m-d H:i:s') : '' }}</td>

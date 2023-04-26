@@ -11,6 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Label\Label;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Label\Font\NotoSans;
 
 #[Route('/code')]
 class CodeController extends AbstractController
@@ -22,11 +29,19 @@ class CodeController extends AbstractController
 
         if( !$codes || count($codes) <= 0 )
         {
-            $codes = $this->generateCodes( $request->get('id_lecture'), $codeRepository, $doctrine);
+            $this->generateCodes( $request->get('id_lecture'), $codeRepository, $doctrine);
+            $codes = $codeRepository->findBy(['lecture' => $request->get('id_lecture')]);
         }
 
-        return $this->render('@backend/code/index.html.twig', [
+        $qrCodes = [];
+        foreach( $codes as $code ) {
+            $qrCodes[$code->getId()] = $this->generateQRCode( $code );
+        }
+
+        return $this->render('@backend/code/list_qrcodes.html.twig', [
+            'base_url' => (empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $_SERVER['HTTP_HOST'],
             'codes' => $codes,
+            'qrCodes' => $qrCodes
         ]);
     }
 
@@ -37,7 +52,6 @@ class CodeController extends AbstractController
 
         if( $lecture )
         {
-            $codes = [];
             for( $i=0 ; $i < $lecture->getAttendeesQuantity() ; $i++)
             {
                 $hash = uniqid();
@@ -50,11 +64,28 @@ class CodeController extends AbstractController
                 $code->setUpdatedAt($date_insert);
 
                 $codeRepository->save($code, true);
-                $codes = $code;
             }
-
-            return $codes;
         }
+    }
+
+    protected function generateQRCode(Code $code)
+    {
+        $base_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $_SERVER['HTTP_HOST'];
+        $output = new PngWriter();
+        $qrCode = QrCode::create($base_url . $code->getUrl() )
+            ->setEncoding(new Encoding('UTF-8'))
+            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+            ->setSize(512)
+            ->setMargin(0)
+            ->setForegroundColor(new Color(0, 0, 0))
+            ->setBackgroundColor(new Color(255, 255, 255));
+        $label = Label::create('')->setFont(new NotoSans(44));
+ 
+        return $output->write(
+                                $qrCode,
+                                null,
+                                $label->setText(strtoupper( $code->getHash() ))
+                            )->getDataUri();
     }
 
     #[Route('/new', name: 'app_code_new', methods: ['GET', 'POST'])]

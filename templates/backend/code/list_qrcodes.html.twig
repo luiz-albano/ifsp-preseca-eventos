@@ -1,0 +1,63 @@
+{% extends '@adminkit/base.html.twig' %}
+
+{% block title %}Lista ~de QR Codes | {{backend_name}} {% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between mb-3">
+        <h1 class="h3 d-inline align-middle">Códigos de Confirmação</h1>
+        <a class="btn btn-primary ms-2" href="{{ path('app_event_show', {'id': codes|first.lecture.event.id}) }}"><i data-feather="chevrons-left"></i> Voltar</a>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="300">QR Code</th>
+                                <th>Dados</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for code in codes %}
+                            <tr>
+                                <td><img src="{{ attribute(qrCodes, code.id) }}" style="max-width: 250px; height: auto"></td>
+                                <td>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th>Hash:</th>
+                                                <td>{{ code.hash }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>URL:</th>
+                                                <td><a href="{{base_url }}{{ code.url }}">{{base_url }}{{ code.url }}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Utilizado por: </th>
+                                            {% if code.usedby is null %}
+                                                <td>ninguém</td>
+                                            {% else %}
+                                                <td>{{ code.usedby.name }}</td>
+                                            {% endif %}
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="2">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
